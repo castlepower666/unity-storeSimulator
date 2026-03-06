@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "store.sln"
+    "dotnet.defaultSolution": "StoreSimulator.sln"
 }
