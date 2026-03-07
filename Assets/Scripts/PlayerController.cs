@@ -13,9 +13,15 @@ public class PlayerController : MonoBehaviour
     private float horiRot;
     private float vertRot;
     public float lookSpeed;
-    public Transform theCam;
+    public Camera theCam;
     public float maxLookAngle;
     public float minLookAngle;
+    public LayerMask whatIsStock;
+    public LayerMask whatIsShelf;
+    public float interactionRange;
+    private StockObject heldPickup;
+    public Transform holdPoint;
+    public float throwForce;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
         vertRot -= lookInput.y * Time.deltaTime * lookSpeed;
         vertRot = Mathf.Clamp(vertRot, minLookAngle, maxLookAngle);
-        theCam.localRotation = Quaternion.Euler(vertRot, 0f, 0f);
+        theCam.transform.localRotation = Quaternion.Euler(vertRot, 0f, 0f);
 
 
         Vector2 moveInput = moveAction.action.ReadValue<Vector2>();
@@ -51,11 +57,65 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-
-
         ySpeed += Physics.gravity.y * Time.deltaTime;
         moveAmount.y = ySpeed;
 
         charCon.Move(moveAmount * Time.deltaTime);
+
+
+        Ray ray = theCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+
+        if (heldPickup == null)
+        {
+            if (Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                if (Physics.Raycast(ray, out RaycastHit hit, interactionRange, whatIsStock))
+                {
+                    heldPickup = hit.collider.GetComponentInParent<StockObject>();
+                    heldPickup.transform.SetParent(holdPoint);
+                    heldPickup.Pickup();
+                }
+            }
+
+            if (Mouse.current.rightButton.wasPressedThisFrame)
+            {
+                if (Physics.Raycast(ray, out RaycastHit hit, interactionRange, whatIsShelf))
+                {
+                    heldPickup = hit.collider.GetComponent<ShelfSpaceController>().GetStockObject();
+                    if (heldPickup != null)
+                    {
+                        heldPickup.transform.SetParent(holdPoint);
+                        heldPickup.Pickup();
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                if (Physics.Raycast(ray, out RaycastHit hit, interactionRange, whatIsShelf))
+                {
+                    // heldPickup.MakePlaed();
+                    // heldPickup.transform.SetParent(hit.transform);
+                    // heldPickup = null;
+
+                    hit.collider.GetComponent<ShelfSpaceController>().PlaceStock(heldPickup);
+
+                    if (heldPickup.isPlaced)
+                    {
+                        heldPickup = null;
+                    }
+                }
+            }
+
+            if (Mouse.current.rightButton.wasPressedThisFrame)
+            {
+                heldPickup.Release();
+                heldPickup.rb.AddForce(theCam.transform.forward * throwForce, ForceMode.Impulse);
+                heldPickup.transform.SetParent(null);
+                heldPickup = null;
+            }
+        }
     }
 }
