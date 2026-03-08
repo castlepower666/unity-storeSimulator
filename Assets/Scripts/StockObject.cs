@@ -10,6 +10,11 @@ public class StockObject : MonoBehaviour
     public bool isPlaced;
     public Collider col;
 
+    void Start()
+    {
+        info = StockInfoController.Instance.GetInfo(info.name);
+    }
+
     void Update()
     {
         if (isPlaced)

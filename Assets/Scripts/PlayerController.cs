@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (Physics.Raycast(ray, out RaycastHit hit, interactionRange, whatIsStock))
                 {
-                    heldPickup = hit.collider.GetComponentInParent<StockObject>();
+                    heldPickup = hit.collider.GetComponent<StockObject>();
                     heldPickup.transform.SetParent(holdPoint);
                     heldPickup.Pickup();
                 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ShelfSpaceController : MonoBehaviour
@@ -6,7 +7,9 @@ public class ShelfSpaceController : MonoBehaviour
     public StockInfo info;
     public int amountOnShelf;
     public List<StockObject> objectsOnShelf;
-
+    private List<Transform> currentPoints;
+    public List<Transform> bigDrinkPoints, cerealPoints, chipsTubePoints, fruitPoints, largeFruitPoints;
+    public TMP_Text shelfLable;
     public void PlaceStock(StockObject objectToPlace)
     {
         //阻止放置标记
@@ -16,18 +19,44 @@ public class ShelfSpaceController : MonoBehaviour
         {
             info = objectToPlace.info;
             preventPlacing = false;
+
+            switch (info.typeOfStock)
+            {
+                case StockInfo.StockType.bigDrink:
+                    currentPoints = bigDrinkPoints;
+                    break;
+                case StockInfo.StockType.cereal:
+                    currentPoints = cerealPoints;
+                    break;
+                case StockInfo.StockType.chipsTube:
+                    currentPoints = chipsTubePoints;
+                    break;
+                case StockInfo.StockType.fruit:
+                    currentPoints = fruitPoints;
+                    break;
+                case StockInfo.StockType.fruitLarge:
+                    currentPoints = largeFruitPoints;
+                    break;
+            }
+
+            shelfLable.text = "$" + info.price.ToString();
         }
         else
         {
             if (objectToPlace.info.name == info.name)
             {
                 preventPlacing = false;
+                if (objectsOnShelf.Count >= currentPoints.Count)
+                {
+                    preventPlacing = true;
+                }
             }
         }
 
         if (!preventPlacing)
         {
-            objectToPlace.transform.SetParent(transform);
+            // objectToPlace.transform.SetParent(transform);
+            objectToPlace.transform.SetParent(currentPoints[objectsOnShelf.Count]);
             objectToPlace.MakePlaed();
 
             objectsOnShelf.Add(objectToPlace);
@@ -41,6 +70,12 @@ public class ShelfSpaceController : MonoBehaviour
         {
             objectToReturn = objectsOnShelf[objectsOnShelf.Count - 1];
             objectsOnShelf.RemoveAt(objectsOnShelf.Count - 1);
+        }
+
+        if (objectsOnShelf.Count == 0)
+        {
+            info = null;
+            shelfLable.text = "";
         }
 
         return objectToReturn;
