@@ -16,8 +16,15 @@ public class StockInfoController : MonoBehaviour
 
         allStock.AddRange(fruitStock);
         allStock.AddRange(produceStock);
-    }
 
+        for (int i = 0; i < allStock.Count; i++)
+        {
+            if (allStock[i].currentPrice == 0)
+            {
+                allStock[i].currentPrice = allStock[i].price;
+            }
+        }
+    }
     public StockInfo GetInfo(string name)
     {
         for (int i = 0; i < allStock.Count; i++)
@@ -29,5 +36,17 @@ public class StockInfoController : MonoBehaviour
         }
 
         return null;
+    }
+
+    public void UpdatePrice(StockInfo stocrName, float newPrice)
+    {
+        for (int i = 0; i < allStock.Count; i++)
+        {
+            if (allStock[i].name == name)
+            {
+                allStock[i].currentPrice = newPrice;
+                return;
+            }
+        }
     }
 }

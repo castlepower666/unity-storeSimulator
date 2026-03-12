@@ -31,6 +31,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (UIController.Instance != null)
+        {
+            if (UIController.Instance.updatePricePanel.activeSelf)
+            {
+                return;
+            }
+        }
+
+        //控制玩家旋转和视角
         Vector2 lookInput = lookAction.action.ReadValue<Vector2>();
         horiRot += lookInput.x * Time.deltaTime * lookSpeed;
         transform.rotation = Quaternion.Euler(0f, horiRot, 0f);
@@ -62,7 +71,7 @@ public class PlayerController : MonoBehaviour
 
         charCon.Move(moveAmount * Time.deltaTime);
 
-
+        //交互
         Ray ray = theCam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
         if (heldPickup == null)
@@ -87,6 +96,14 @@ public class PlayerController : MonoBehaviour
                         heldPickup.transform.SetParent(holdPoint);
                         heldPickup.Pickup();
                     }
+                }
+            }
+
+            if (Keyboard.current.eKey.wasPressedThisFrame)
+            {
+                if (Physics.Raycast(ray, out RaycastHit hit, interactionRange, whatIsShelf))
+                {
+                    hit.collider.GetComponent<ShelfSpaceController>().StartUpdatePrice();
                 }
             }
         }

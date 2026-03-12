@@ -39,7 +39,7 @@ public class ShelfSpaceController : MonoBehaviour
                     break;
             }
 
-            shelfLable.text = "$" + info.price.ToString();
+            shelfLable.text = "$" + info.currentPrice.ToString("F2");
         }
         else
         {
@@ -79,5 +79,18 @@ public class ShelfSpaceController : MonoBehaviour
         }
 
         return objectToReturn;
+    }
+
+    public void StartUpdatePrice()
+    {
+        if (objectsOnShelf.Count > 0)
+        {
+            UIController.Instance.OpenUpdatePricePanel(info);
+        }
+    }
+
+    public void UpdateDisplayPrice()
+    {
+        shelfLable.text = "$" + info.currentPrice.ToString("F2");
     }
 }
