@@ -151,6 +151,8 @@ MonoBehaviour:
     name: Orange Drink
     typeOfStock: 1
     price: 3
+    currentPrice: 0
+    prefab: {fileID: 0}
   rb: {fileID: 2719287809581467979}
   moveSpeed: 5
   isPlaced: 0

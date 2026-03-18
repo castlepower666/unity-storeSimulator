@@ -150,6 +150,8 @@ MonoBehaviour:
     name: Granola Cereal
     typeOfStock: 0
     price: 7
+    currentPrice: 0
+    prefab: {fileID: 0}
   rb: {fileID: 158287463245517535}
   moveSpeed: 5
   isPlaced: 0

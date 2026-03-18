@@ -151,6 +151,8 @@ MonoBehaviour:
     name: Cheddar Chips
     typeOfStock: 2
     price: 2
+    currentPrice: 0
+    prefab: {fileID: 0}
   rb: {fileID: 776649376380056855}
   moveSpeed: 5
   isPlaced: 0

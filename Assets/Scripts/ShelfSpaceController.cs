@@ -55,7 +55,6 @@ public class ShelfSpaceController : MonoBehaviour
 
         if (!preventPlacing)
         {
-            // objectToPlace.transform.SetParent(transform);
             objectToPlace.transform.SetParent(currentPoints[objectsOnShelf.Count]);
             objectToPlace.MakePlaed();
 

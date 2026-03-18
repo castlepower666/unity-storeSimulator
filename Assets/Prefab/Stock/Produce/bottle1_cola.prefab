@@ -151,6 +151,8 @@ MonoBehaviour:
     name: Cola
     typeOfStock: 1
     price: 3
+    currentPrice: 0
+    prefab: {fileID: 0}
   rb: {fileID: 1582617218526352026}
   moveSpeed: 5
   isPlaced: 0

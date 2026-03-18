@@ -150,6 +150,8 @@ MonoBehaviour:
     name: Ring Cereal
     typeOfStock: 0
     price: 7
+    currentPrice: 0
+    prefab: {fileID: 0}
   rb: {fileID: 9105871060478355883}
   moveSpeed: 5
   isPlaced: 0

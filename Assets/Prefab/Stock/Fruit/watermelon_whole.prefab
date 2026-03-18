@@ -124,6 +124,8 @@ MonoBehaviour:
     name: Watermelon Whole
     typeOfStock: 4
     price: 6
+    currentPrice: 0
+    prefab: {fileID: 0}
   rb: {fileID: 1382874352876093491}
   moveSpeed: 5
   isPlaced: 0

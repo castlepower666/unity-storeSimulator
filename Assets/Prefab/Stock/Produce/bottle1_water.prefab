@@ -151,6 +151,8 @@ MonoBehaviour:
     name: Water
     typeOfStock: 1
     price: 3
+    currentPrice: 0
+    prefab: {fileID: 0}
   rb: {fileID: 5053540368337676180}
   moveSpeed: 5
   isPlaced: 0
